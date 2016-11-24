@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="name" charset="utf-8" content="content">
+	<title>空连接检测</title>
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<style type="text/css" media="screen">
+		.fish_progress-bar{
+			display: inline-block;
+					background-color: #777;
+					-moz-border-radius: 6px;
+					-webkit-border-radius: 6px;
+					border-radius: 6px;
+
+					-moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+					-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+					box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+
+					-webkit-transition: width .4s ease-in-out;
+					-moz-transition: width .4s ease-in-out;
+					-ms-transition: width .4s ease-in-out;
+					-o-transition: width .4s ease-in-out;
+					transition: width .4s ease-in-out;	
+					-webkit-background-size: 30px 30px;
+					-moz-background-size: 30px 30px;
+					background-size: 30px 30px;			
+					background-image: -webkit-gradient(linear, left top, right bottom,
+							color-stop(.25, rgba(255, 255, 255, .15)), color-stop(.25, transparent),
+							color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .15)),
+							color-stop(.75, rgba(255, 255, 255, .15)), color-stop(.75, transparent),
+							to(transparent));
+					background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+			                    transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+			                    transparent 75%, transparent);
+					background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+					                    transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+					                    transparent 75%, transparent);
+					background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+					                    transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+					                    transparent 75%, transparent);
+					background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+					                    transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+					                    transparent 75%, transparent);
+					background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+					                    transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
+					                    transparent 75%, transparent);
+					-webkit-animation: animate-stripes 3s linear infinite;
+					-moz-animation: animate-stripes 3s linear infinite;
+		}
+@-webkit-keyframes animate-stripes { 
+	0% {background-position: 0 0;} 
+	100% {background-position: 60px 0;}
+}
+@-moz-keyframes animate-stripes {
+		0% {background-position: 0 0;} 
+		100% {background-position: 60px 0;}
+}
+	
+
+
+	.box{ animation: change 1s  ease-in  infinite ; font-size: 36px; color:#f00; font-weight: bold}
+        @keyframes change {
+            0%{ text-shadow: 0 0 4px #f00}
+            50%{ text-shadow: 0 0 40px #f00}
+            100%{ text-shadow: 0 0 4px #f00}
+        }
+	</style>
+</head>
+<body>
+<div class="fish_main">
+	<div class="fish_header">
+		<button id="J_fish_no_use"  class="fish_btn">死联检测</button>
+		<button id="J_fish_hijack"  class="fish_btn">域名劫持</button>
+	</div>
+	<div class="fish_loading" id="J_loading" style="display:block">
+		<div class="fish_progress-bar">
+			<div class="fish_progress-stripes"></div>
+			<div class="fish_percentage">0%</div>
+		</div>
+	</div>
+	<div class="fish_tip" style="border:1px solid #666;padding:5px;color:#fff;font-size:14px;">
+		<span style="background-color:rgba(205, 237, 139, .6)">绿色</span> :可以正常访问的链接<br />
+		<span style="background-color:rgba(255, 26, 0, .9)">红色</span> :链接不可访问或链接已更改<br />
+		<span style="background-color:yellow;color: #000;">黄色</span> :点击链接会有跳转
+	</div>
+	<div class="fish_content">
+		<div class="fish_error">
+			<p>301错误链接数：<b>30</b>个</p>
+			<div class="fish_error">
+				<a href="#">http://bbs.hupuhupuhupuhupuhupuhupuhupuhupu.com/</a>
+				<a href="#">email</a>
+			</div>
+		</div>
+		<div class="fish_error">
+			<p>404错误链接: <b>40</b>个</p>
+			<div class="fish_error">
+				<a href="#">http://bbs.hupu.com/</a>
+				<a href="#">email</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	-->
+
+	<script type="text/javascript">
+		var a=document.getElementsByTagName("a"),
+				fishNoUse = document.getElementById("J_fish_no_use"),
+				fishHijack = document.getElementById("J_fish_hijack"),
+				fishList = document.getElementById("J_fish_list"),
+				J_loader = document.getElementById("J_loader"),
+				J_btnBcak = document.getElementById("J_fish_btnBcak");
+  	fishNoUse.onclick = function() {
+  		fishHijack.style.display  = "none";
+  		fishNoUse.style.display = "none"; 
+  		J_loader.style.display  = "inline";
+  		J_btnBcak.style.display = "inline";
+  		for(var i=0;i<a.length;i++){
+  			//fishList.appendChild();
+  		}
+  	}
+  	fishHijack.onclick = function() {
+  		fishHijack.style.display  = "none";
+  		fishNoUse.style.display = "none";  
+  		J_loader.style.display  = "inline";
+  		J_btnBcak.style.display = "inline";
+  	}
+  	J_btnBcak.onclick = function() {
+  		fishNoUse.style.display  = "inline";
+  		fishHijack.style.display  = "inline";
+  		J_loader.style.display  = "none";
+  		J_btnBcak.style.display = "none";
+  	}
+  	function createXMLHTTPRequest() {      
+       var xmlHttpRequest;  
+       if (window.XMLHttpRequest) {     
+           //针对FireFox，Mozillar，Opera，Safari，IE7，IE8     
+          xmlHttpRequest = new XMLHttpRequest();     
+           //针对某些特定版本的mozillar浏览器的BUG进行修正     
+           if (xmlHttpRequest.overrideMimeType) {     
+               xmlHttpRequest.overrideMimeType("text/xml");     
+           }     
+       } else if (window.ActiveXObject) {        
+           var activexName = [ "MSXML2.XMLHTTP", "Microsoft.XMLHTTP" ];     
+           for ( var i = 0; i < activexName.length; i++) {     
+               try {         
+                  xmlHttpRequest = new ActiveXObject(activexName[i]);  
+                  xmlHttpRequest =   activexName[i];
+                  if(xmlHttpRequest){  
+                      break;  
+                  }  
+               } catch (e) {     
+               }     
+           }     
+       }     
+       return xmlHttpRequest;  
+   }
+	function get(link){  
+		var req = createXMLHTTPRequest();  
+		if(req){  
+		    req.open("GET", link, true);  
+		    req.onreadystatechange = function(){  
+		    	console.log(readyState,"888")
+		        if(req.readyState == 4){  
+		            if(req.status == 200){  
+		                alert("success");  
+		            }else{  
+		                alert("error");  
+		            }  
+		        }  
+		    }  
+		    req.send(null);  
+		}  
+	}
+	for(var i=0;i<a.length;i++){
+		var link = a[i].getAttribute('href');
+		//get(link);
+	}
+
+
+	//检测是否为格式正确的链接
+	function IsUrl(str){   
+        var regUrl = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/; 
+        var result = str.match(regUrl);   
+        if(result!=null) {alert( "Yes ")}   
+        else{alert( "No! ")}   
+    }
+  
+	</script>
+</body>
+</html>
