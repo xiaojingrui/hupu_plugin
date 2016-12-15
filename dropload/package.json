@@ -1,0 +1,18 @@
+{
+  "name": "all-web-eventtrack",
+  "version": "0.1.1",
+  "repository": {
+    "type": "git",
+    "url": "http://123.56.20.101/Z-grapedevops/all-webs.git"
+  },
+  "devDependencies": {
+    "webpack": "^1.12.3",
+    "webpack-dev-server": "^1.12.1"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
