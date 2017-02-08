@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equindexiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ckplayer简单调用演示</title>
+<style type="text/css" media="screen">
+</style>
+</head>
+<body>
+<div id="a1"></div>
+<input type="button" name="button7" value="播放/暂停" onClick="playorpause()" id="btn22" />
+<script
+			  src="https://code.jquery.com/jquery-1.12.4.min.js"
+			  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+			  crossorigin="anonymous"></script>
+<script type="text/javascript" src="ckplayer/ckplayer.js" charset="utf-8"></script>
+<script type="text/javascript">
+var idLoadHandler=false;
+//虎扑视频地址：http://test.videohupu.com/video/29ll8gx68v7?test
+//http://huputv-ali-vod.arenacdn.com/mp4-ld/wh2.mp4?auth_key=1483559987-0-0-6dcf022e0657a2a8c6aff38ec691a1cd
+	var flashvars={
+		f:'http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4',
+		c:0,
+		p:0,
+		h:0,
+		loaded:'loadHandler',
+		i:'http://www.ckplayer.com/static/images/cqdw.jpg'
+		};
+	//var video=['http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4->video/mp4'];
+	var params={bgcolor:'#000',allowFullScreen:false,allowScriptAccess:'always',wmode:"transparent"};
+	CKobject.embedSWF('ckplayer/ckplayer.swf','a1','ckplayer_a1','600','400',flashvars,params)	
+		//CKobject.embed('//b3.hoopchina.com.cn/web/widget/material/2015/2/ckplayer/ckplayer.swf','show-video-start','ckplayer_a1','980','400',false,flashvars,video,params)
+
+function loadHandler(){
+		idLoadHandler=true;
+		CKobject.getObjectById('ckplayer_a1').getStatus();
+		CKobject.getObjectById('ckplayer_a1').changeFace(true);	
+		CKobject.getObjectById('ckplayer_a1').addListener('play','playState');
+	}
+	 function playorpause(){	
+		// 	if( a1.is(":visible") ) {
+		// 		a1.slideUp(1500);
+		// 	}else{
+		// 		a1.slideDown(1500);
+		//}
+		if(idLoadHandler){
+			CKobject.getObjectById('ckplayer_a1').playOrPause();
+
+		}
+		else{
+			alert('播放器还未加载，不能进行控制');
+		}
+	}
+// var ckstyle = new ckstyle();
+// 		var setup = ckstyle.setup.split(",");
+// 		setup.splice(1,1,"0");
+// 		console.log(ckstyle.setup)
+// 		ckstyle.setup = setup.join(",")
+// 		console.log(ckstyle.setup)
+
+   
+</script>
+</body>
+</html>
